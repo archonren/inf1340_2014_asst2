@@ -60,6 +60,11 @@ def decide(input_file, watchlist_file, countries_file):
 
 
 def quarantine(traveller, countries_file):
+    """check if the traveller needs to be quarantined
+    :param traveller: list of traveller info
+    :param countries_file: the current watchlist file from json file
+    :return: quarantine_state; True if needs to be quarantined, False otherwise
+    """
     quarantine_state = False
     if "via" in traveller:
         if countries_file[traveller["via"]["country"].upper()]["medical_advisory"]:
@@ -70,6 +75,10 @@ def quarantine(traveller, countries_file):
 
 
 def completeness(traveller_info):
+    """check if the traveller info has every required field
+    :param traveller_info: list of traveller info
+    :return: completeness_state; True if has everything, False otherwise
+    """
     completeness_state = True
     for info in traveller_info:
         if not info:
@@ -89,6 +98,11 @@ def completeness(traveller_info):
 
 
 def valid_visa(traveller, countries_file):
+    """check if the traveller has valid visa if need
+    :param traveller: list of traveller info
+    :param countries_file: the current countries file from json file
+    :return: visa_state; True if visa is within 2 years, False otherwise
+    """
     today = date.today()
     year = timedelta(days=365)
     cut_of_date = today - year * 2
@@ -109,6 +123,11 @@ def valid_visa(traveller, countries_file):
 
 
 def watchlist(traveller, watchlist_file):
+    """check if the traveller is in watchlist
+    :param traveller: list of traveller info
+    :param watchlist_file: the current watchlist file from json file
+    :return: watchlist_state; True if in watchlist, False otherwise
+    """
     watchlist_state = False
     for watchlist_person in watchlist_file:
         if traveller["passport"].upper() == watchlist_person["passport"].upper():
